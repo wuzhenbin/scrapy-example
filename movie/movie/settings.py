@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for meiju project
+# Scrapy settings for movie project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,21 +9,17 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'meiju'
+BOT_NAME = 'movie'
 
-SPIDER_MODULES = ['meiju.spiders']
-NEWSPIDER_MODULE = 'meiju.spiders'
+SPIDER_MODULES = ['movie.spiders']
+NEWSPIDER_MODULE = 'movie.spiders'
 
-
-# mysql
-MYSQL_URL = 'localhost:3306'
-MYSQL_USER = 'root'
-MYSQL_PASS = 'qweasd'
-MYSQL_DATABASE = 'meiju'
+MONGO_URL = 'localhost'
+MONGO_DB = 'movie'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'meiju (+http://www.yourdomain.com)'
+#USER_AGENT = 'movie (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -54,13 +50,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'meiju.middlewares.MeijuSpiderMiddleware': 543,
+#    'movie.middlewares.MovieSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'meiju.middlewares.MeijuDownloaderMiddleware': 543,
+#    'movie.middlewares.MovieDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -72,8 +68,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'meiju.pipelines.Meiju100Pipeline': 300,
-    'meiju.pipelines.SqlalchemyPipeline': 400
+   'movie.pipelines.MongoPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
