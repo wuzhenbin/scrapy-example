@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from scrapy import Spider, Request
 from movie.items import sixaingItem
+from multiprocessing import Pool
 
 class SixiangSpider(Spider):
     name = 'sixiang'
@@ -15,8 +16,7 @@ class SixiangSpider(Spider):
         item['download_url'] = download_url
         yield item
 
-    # 分类列表
-    def parse_nav_url(self, response):
+    def parse_page_list(self, response):
         lis = response.css('.post-grid .post')
         for item in lis:
             title = item.css('h2 a::text').extract_first()
@@ -39,14 +39,22 @@ class SixiangSpider(Spider):
             yield item
             yield Request(url, callback=self.parse_detail)
 
+    # 分类列表
+    def parse_nav_url(self, response):
+        # 分页爬取
+        page = response.css('.wp-pagenavi span.pages').re_first('共(.*)页')
+        page = int(page) + 1
+
+        for item_page in range(2,page):
+            url = '{}/page/{}'.format(response.url,item_page)
+            yield Request(url, callback=self.parse_page_list)
+
     # 获取分类地址
     def parse(self, response):
-        # nav_lis = response.css('#nav li')
-        # # 去掉第一个和最后一个
-        # nav_lis.pop(0)
-        # nav_lis.pop()
-        # for item in nav_lis:
-        #     url = item.css('a::attr(href)').extract_first()
-        #     yield Request(url, callback=self.parse_nav_url)
-
-        yield Request('http://www.ibtbb.com/720p', callback=self.parse_nav_url)
+        nav_lis = response.css('#nav li')
+        # 去掉第一个和最后一个
+        nav_lis.pop(0)
+        nav_lis.pop()
+        for item in nav_lis:
+            url = item.css('a::attr(href)').extract_first()
+            yield Request(url, callback=self.parse_nav_url)
