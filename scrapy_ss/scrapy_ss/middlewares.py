@@ -6,9 +6,22 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import logging
 
+class ProxyMiddleware(object):
+    logger = logging.getLogger(__name__)
 
-class AutohomeSpiderMiddleware(object):
+    # 改写代理请求
+    def process_request(self, request, spider):
+        request.meta['proxy'] = 'http://127.0.0.1:1080'
+
+    # 失败重试
+    def process_exception(self, request, exception, spider):
+        self.logger.debug('Try second')
+        request.meta['proxy'] = 'https://127.0.0.1:1080'
+        return request
+
+class ScrapySsSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -56,7 +69,7 @@ class AutohomeSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class AutohomeDownloaderMiddleware(object):
+class ScrapySsDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
