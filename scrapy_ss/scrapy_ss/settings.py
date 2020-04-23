@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for autohome project
+# Scrapy settings for scrapy_ss project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,20 +9,14 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'autohome'
+BOT_NAME = 'scrapy_ss'
 
-SPIDER_MODULES = ['autohome.spiders']
-NEWSPIDER_MODULE = 'autohome.spiders'
+SPIDER_MODULES = ['scrapy_ss.spiders']
+NEWSPIDER_MODULE = 'scrapy_ss.spiders'
 
-
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-
-REDIS_URL = 'redis://:whenchenpin@144.34.211.1245:6379'
-MONGO_URI = 'mongodb://root:qweasd@144.34.211.124:27017'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'autohome (+http://www.yourdomain.com)'
+#USER_AGENT = 'scrapy_ss (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -53,14 +47,15 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'autohome.middlewares.AutohomeSpiderMiddleware': 543,
+#    'scrapy_ss.middlewares.ScrapySsSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'autohome.middlewares.AutohomeDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   # 'scrapy_ss.middlewares.ScrapySsDownloaderMiddleware': 543,
+   'scrapy_ss.middlewares.ProxyMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -71,7 +66,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'autohome.pipelines.AutohomePipeline': 300,
+#    'scrapy_ss.pipelines.ScrapySsPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
